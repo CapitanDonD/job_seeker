@@ -5,7 +5,7 @@ This script will allow you to quickly find vacancies in the profession of a prog
 ### How to install
 
 The program requires a SuperJob key to work. It can be obtained
-on this site - https://api.superjob.ru/info/, go to the site, register your application
+on this site - [api.superjob.ru](https://api.superjob.ru/info/), go to the site, register your application
 the key will appear, copy it. Then,
 in the folder with the program, create a file called ".env". It needs
 paste this:
