@@ -4,6 +4,12 @@ This script will allow you to quickly find vacancies in the profession of a prog
 
 ### How to install
 
+Python3 should be already installed.
+Then use `pip` (or `pip3`, if there is a conflict with Python2) to install dependencies:
+```
+pip install -r requirements.txt
+```
+
 The program requires a SuperJob key to work. It can be obtained
 on this site - [api.superjob.ru](https://api.superjob.ru/info/), go to the site, register your application
 the key will appear, copy it. Then,
