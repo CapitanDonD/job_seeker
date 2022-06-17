@@ -24,14 +24,14 @@ LANGUAGES = [
 ]
 
 
-def decoded_sj_response(found_languages='Python', page=0):
+def decoded_sj_response(language='Python', page=0):
     headers = {'X-Api-App-Id': SJ_KEY}
     url = 'https://api.superjob.ru/2.0/vacancies/'
     params = {
         'period': 30,
         'catalogues': 48,
         'town': '4',
-        'keyword': found_languages,
+        'keyword': language,
         'page': page
     }
 
@@ -40,13 +40,13 @@ def decoded_sj_response(found_languages='Python', page=0):
     return response.json()
 
 
-def table_predicted_rub_salary_sj(FOUND_LANGUAGES):
+def table_predicted_rub_salary_sj(language):
     count_used = 0
     all_average_salaries = []
     found = 0
 
     for page in count(0, 1):
-        decoded_response = decoded_sj_response(FOUND_LANGUAGES, page=page)
+        decoded_response = decoded_sj_response(language, page=page)
 
         for salary in decoded_response['objects']:
             if salary['payment_from'] or salary['payment_to']:

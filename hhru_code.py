@@ -18,7 +18,7 @@ LANGUAGES = [
 ]
 
 
-def decode_hhru_response(found_languages='Python', page=0):
+def decode_hhru_response(language='Python', page=0):
     url = 'https://api.hh.ru/vacancies'
 
 
@@ -26,7 +26,7 @@ def decode_hhru_response(found_languages='Python', page=0):
         'period': 30,
         'area': '1',
         'specialization': '1.221',
-        'text': found_languages,
+        'text': language,
         'page': page
     }
     response = requests.get(url, params=params)
@@ -34,12 +34,12 @@ def decode_hhru_response(found_languages='Python', page=0):
     return response.json()
 
 
-def predict_table_rub_hhru_salary(found_languages):
+def predict_table_rub_hhru_salary(language):
     all_average_salaries = []
     found = 0
 
     for page in count(0, 1):
-        decoded_response = decode_hhru_response(found_languages, page=page)
+        decoded_response = decode_hhru_response(language, page=page)
         found = decoded_response['found']
 
         for salary in decoded_response['items']:
