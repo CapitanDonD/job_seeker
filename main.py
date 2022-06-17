@@ -14,8 +14,8 @@ LANGUAGES = [
     'C#'
 ]
 
-TITLE_SJ = 'Superjob Moscow'
-TITLE_HHRU = 'HeadHunter Moscow'
+SJ_TITLE = 'Superjob Moscow'
+HHRU_TITLE = 'HeadHunter Moscow'
 
 
 def creating_table(content, title):
@@ -41,8 +41,8 @@ def creating_table(content, title):
 
 
 def main():
-    print(creating_table(get_statistics_of_languages_hhru(LANGUAGES), TITLE_HHRU))
-    print(creating_table(get_statistics_of_languages_sj(LANGUAGES), TITLE_SJ))
+    print(creating_table(get_statistics_of_languages_hhru(LANGUAGES), HHRU_TITLE))
+    print(creating_table(get_statistics_of_languages_sj(LANGUAGES), SJ_TITLE))
 
 
 if __name__ == '__main__':
