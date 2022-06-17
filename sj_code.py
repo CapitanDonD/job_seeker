@@ -8,8 +8,6 @@ from collections import defaultdict
 from predict_salary import predict_rub_salary
 
 
-load_dotenv()
-
 SJ_KEY = os.getenv('SJ_KEY')
 
 LANGUAGES = [
@@ -85,6 +83,8 @@ def get_statistics_of_sj_languages(languages):
 
 
 def main():
+    load_dotenv()
+
     print(get_statistics_of_sj_languages(LANGUAGES))
 
 
