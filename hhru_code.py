@@ -18,7 +18,7 @@ LANGUAGES = [
 ]
 
 
-def decoded_hhru_response(found_languages='Python', page=0):
+def decode_hhru_response(found_languages='Python', page=0):
     url = 'https://api.hh.ru/vacancies'
 
 
@@ -34,12 +34,12 @@ def decoded_hhru_response(found_languages='Python', page=0):
     return response.json()
 
 
-def table_predicted_rub_salary_hhru(found_languages):
+def predict_table_rub_hhru_salary(found_languages):
     all_average_salaries = []
     found = 0
 
     for page in count(0, 1):
-        decoded_response = decoded_hhru_response(found_languages, page=page)
+        decoded_response = decode_hhru_response(found_languages, page=page)
         found = decoded_response['found']
 
         for salary in decoded_response['items']:
@@ -62,17 +62,17 @@ def table_predicted_rub_salary_hhru(found_languages):
     return statistics
 
 
-def get_statistics_of_languages_hhru(languages):
+def get_statistics_of_hhru_languages(languages):
     statistics = defaultdict()
 
     for language in languages:
-        statistics[language] = table_predicted_rub_salary_hhru(language)
+        statistics[language] = predict_table_rub_hhru_salary(language)
 
     return statistics
 
 
 def main():
-    print(get_statistics_of_languages_hhru(LANGUAGES))
+    print(get_statistics_of_hhru_languages(LANGUAGES))
 
 
 if __name__ == '__main__':

@@ -73,7 +73,7 @@ def table_predicted_rub_salary_sj(FOUND_LANGUAGES):
     return statistics
 
 
-def get_statistics_of_languages_sj(languages):
+def get_statistics_of_sj_languages(languages):
     statistics = defaultdict()
 
     for language in languages:
@@ -83,7 +83,7 @@ def get_statistics_of_languages_sj(languages):
 
 
 def main():
-    print(get_statistics_of_languages_sj(LANGUAGES))
+    print(get_statistics_of_sj_languages(LANGUAGES))
 
 
 if __name__ == '__main__':
