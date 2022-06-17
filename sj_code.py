@@ -48,15 +48,16 @@ def table_predicted_rub_salary_sj(language):
     for page in count(0, 1):
         decoded_response = decoded_sj_response(language, page=page)
 
-        for salary in decoded_response['objects']:
-            if salary['payment_from'] or salary['payment_to']:
-                if salary['currency'] == 'rub':
-                    salary_rub = predict_rub_salary(
-                        salary['payment_from'],
-                        salary['payment_to']
-                    )
-                    count_used += 1
-                    all_average_salaries.append(salary_rub)
+        if decoded_response['objects']:
+            for salary in decoded_response['objects']:
+                if salary['payment_from'] or salary['payment_to']:
+                    if salary['currency'] == 'rub':
+                        salary_rub = predict_rub_salary(
+                            salary['payment_from'],
+                            salary['payment_to']
+                        )
+                        count_used += 1
+                        all_average_salaries.append(salary_rub)
 
         if not decoded_response['more']:
             break

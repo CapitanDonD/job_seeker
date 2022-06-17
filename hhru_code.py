@@ -42,14 +42,15 @@ def predict_table_rub_hhru_salary(language):
         decoded_response = decode_hhru_response(language, page=page)
         found = decoded_response['found']
 
-        for salary in decoded_response['items']:
-            if salary['salary'] and salary['salary']['currency'] == 'RUR':
-                all_average_salaries.append(
-                    predict_rub_salary(
-                        salary['salary']['from'],
-                        salary['salary']['to']
+        if decoded_response['items']:
+            for salary in decoded_response['items']:
+                if salary['salary'] and salary['salary']['currency'] == 'RUR':
+                    all_average_salaries.append(
+                        predict_rub_salary(
+                            salary['salary']['from'],
+                            salary['salary']['to']
+                        )
                     )
-                )
 
         if page >= decoded_response['pages']-1:
             break
