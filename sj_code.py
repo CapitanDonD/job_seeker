@@ -8,8 +8,6 @@ from collections import defaultdict
 from predict_salary import predict_rub_salary
 
 
-SJ_KEY = os.getenv('SJ_KEY')
-
 LANGUAGES = [
     'Python',
     'Java',
@@ -22,8 +20,8 @@ LANGUAGES = [
 ]
 
 
-def decoded_sj_response(language='Python', page=0):
-    headers = {'X-Api-App-Id': SJ_KEY}
+def decoded_sj_response(sj_key, language='Python', page=0):
+    headers = {'X-Api-App-Id': sj_key}
     url = 'https://api.superjob.ru/2.0/vacancies/'
     params = {
         'period': 30,
@@ -42,9 +40,10 @@ def table_predicted_rub_salary_sj(language):
     count_used = 0
     all_average_salaries = []
     found = 0
+    sj_key = os.getenv('SJ_KEY')
 
     for page in count(0, 1):
-        decoded_response = decoded_sj_response(language, page=page)
+        decoded_response = decoded_sj_response(sj_key, language, page=page)
 
         if decoded_response['objects']:
             for salary in decoded_response['objects']:
