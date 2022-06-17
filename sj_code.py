@@ -7,6 +7,7 @@ from collections import defaultdict
 
 from predict_salary import predict_rub_salary
 
+
 load_dotenv()
 
 SJ_KEY = os.getenv('SJ_KEY')

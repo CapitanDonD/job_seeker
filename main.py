@@ -3,6 +3,7 @@ from terminaltables import AsciiTable
 from hhru_code import get_statistics_of_hhru_languages
 from sj_code import get_statistics_of_sj_languages
 
+
 LANGUAGES = [
     'Python',
     'Java',
