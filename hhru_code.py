@@ -45,9 +45,10 @@ def predict_table_rub_hhru_salary(found_languages):
         for salary in decoded_response['items']:
             if salary['salary'] and salary['salary']['currency'] == 'RUR':
                 all_average_salaries.append(
-                    predict_rub_salary(salary['salary']['from'],
-                                       salary['salary']['to']
-                                       )
+                    predict_rub_salary(
+                        salary['salary']['from'],
+                        salary['salary']['to']
+                    )
                 )
 
         if page >= decoded_response['pages']-1:
