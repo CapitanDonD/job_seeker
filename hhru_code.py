@@ -6,7 +6,7 @@ from itertools import count
 from predict_salary import predict_rub_salary
 
 
-FOUND_LANGUAGES = [
+LANGUAGES = [
     'Python',
     'Java',
     'JavaScript',
@@ -72,7 +72,7 @@ def get_statistics_of_languages_hhru(languages):
 
 
 def main():
-    print(get_statistics_of_languages_hhru(FOUND_LANGUAGES))
+    print(get_statistics_of_languages_hhru(LANGUAGES))
 
 
 if __name__ == '__main__':

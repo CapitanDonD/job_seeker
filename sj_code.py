@@ -11,7 +11,7 @@ load_dotenv()
 
 SJ_KEY = os.getenv('SJ_KEY')
 
-FOUND_LANGUAGES = [
+LANGUAGES = [
     'Python',
     'Java',
     'JavaScript',
@@ -83,7 +83,7 @@ def get_statistics_of_languages_sj(languages):
 
 
 def main():
-    print(get_statistics_of_languages_sj(FOUND_LANGUAGES))
+    print(get_statistics_of_languages_sj(LANGUAGES))
 
 
 if __name__ == '__main__':

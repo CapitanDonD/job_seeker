@@ -3,7 +3,7 @@ from terminaltables import AsciiTable
 from hhru_code import get_statistics_of_languages_hhru
 from sj_code import get_statistics_of_languages_sj
 
-FOUND_LANGUAGES = [
+LANGUAGES = [
     'Python',
     'Java',
     'JavaScript',
@@ -41,8 +41,8 @@ def creating_table(content, title):
 
 
 def main():
-    print(creating_table(get_statistics_of_languages_hhru(FOUND_LANGUAGES), TITLE_HHRU))
-    print(creating_table(get_statistics_of_languages_sj(FOUND_LANGUAGES), TITLE_SJ))
+    print(creating_table(get_statistics_of_languages_hhru(LANGUAGES), TITLE_HHRU))
+    print(creating_table(get_statistics_of_languages_sj(LANGUAGES), TITLE_SJ))
 
 
 if __name__ == '__main__':
