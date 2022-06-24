@@ -20,7 +20,7 @@ LANGUAGES = [
 ]
 
 
-def decoded_sj_response(sj_key, language='Python', page=0):
+def getting_sj_vacancies(sj_key, language='Python', page=0):
     headers = {'X-Api-App-Id': sj_key}
     url = 'https://api.superjob.ru/2.0/vacancies/'
     params = {
@@ -32,39 +32,37 @@ def decoded_sj_response(sj_key, language='Python', page=0):
     }
 
     response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status()
 
     return response.json()
 
 
-def table_predicted_rub_salary_sj(language):
-    count_used = 0
+def collect_sj_languages_statistics(language, sj_key):
     all_average_salaries = []
     found = 0
-    sj_key = os.getenv('SJ_KEY')
 
     for page in count(0, 1):
-        decoded_response = decoded_sj_response(sj_key, language, page=page)
+        decoded_response = getting_sj_vacancies(sj_key, language, page=page)
 
-        if decoded_response['objects']:
-            for salary in decoded_response['objects']:
-                if salary['payment_from'] or salary['payment_to']:
-                    if salary['currency'] == 'rub':
-                        salary_rub = predict_rub_salary(
-                            salary['payment_from'],
-                            salary['payment_to']
-                        )
-                        count_used += 1
-                        all_average_salaries.append(salary_rub)
+        for salary in decoded_response['objects']:
+            if salary['payment_from'] or salary['payment_to']:
+                if salary['currency'] == 'rub':
+                    salary_rub = predict_rub_salary(
+                        salary['payment_from'],
+                        salary['payment_to']
+                    )
+                    all_average_salaries.append(salary_rub)
 
         if not decoded_response['more']:
             break
 
         found = decoded_response["total"]
 
-    sum_salary = int(sum(all_average_salaries) / len(all_average_salaries))
+    salary_sum = int(sum(all_average_salaries) / len(all_average_salaries))
+    count_used = len(all_average_salaries)
 
     statistics = {
-        'average_salary': sum_salary,
+        'average_salary': salary_sum,
         'vacancies_found': found,
         'vacancies_processed': count_used
     }
@@ -72,11 +70,12 @@ def table_predicted_rub_salary_sj(language):
     return statistics
 
 
-def get_statistics_of_sj_languages(languages):
+def get_statistic_of_sj_languages(languages):
     statistics = defaultdict()
+    sj_key = os.getenv('SJ_KEY')
 
     for language in languages:
-        statistics[language] = table_predicted_rub_salary_sj(language)
+        statistics[language] = collect_sj_languages_statistics(language, sj_key)
 
     return statistics
 
@@ -84,7 +83,7 @@ def get_statistics_of_sj_languages(languages):
 def main():
     load_dotenv()
 
-    print(get_statistics_of_sj_languages(LANGUAGES))
+    print(get_statistic_of_sj_languages(LANGUAGES))
 
 
 if __name__ == '__main__':

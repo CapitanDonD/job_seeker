@@ -1,7 +1,7 @@
 from terminaltables import AsciiTable
 
-from hhru_code import get_statistics_of_hhru_languages
-from sj_code import get_statistics_of_sj_languages
+from hhru import get_hhru_language_statistics
+from sj import get_statistic_of_sj_languages
 
 
 LANGUAGES = [
@@ -42,8 +42,8 @@ def create_table(content, title):
 
 
 def main():
-    print(create_table(get_statistics_of_hhru_languages(LANGUAGES), HHRU_TITLE))
-    print(create_table(get_statistics_of_sj_languages(LANGUAGES), SJ_TITLE))
+    print(create_table(get_hhru_language_statistics(LANGUAGES), HHRU_TITLE))
+    print(create_table(get_statistic_of_sj_languages(LANGUAGES), SJ_TITLE))
 
 
 if __name__ == '__main__':

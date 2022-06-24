@@ -18,7 +18,7 @@ LANGUAGES = [
 ]
 
 
-def decode_hhru_response(language='Python', page=0):
+def getting_hhru_languages_vacancies(language='Python', page=0):
     url = 'https://api.hh.ru/vacancies'
 
 
@@ -30,51 +30,55 @@ def decode_hhru_response(language='Python', page=0):
         'page': page
     }
     response = requests.get(url, params=params)
+
     response.raise_for_status()
+
     return response.json()
 
 
-def predict_table_rub_hhru_salary(language):
+def collect_hhru_statistics(language):
     all_average_salaries = []
     found = 0
 
     for page in count(0, 1):
-        decoded_response = decode_hhru_response(language, page=page)
+        decoded_response = getting_hhru_languages_vacancies(language, page=page)
         found = decoded_response['found']
 
-        if decoded_response['items']:
-            for salary in decoded_response['items']:
-                if salary['salary'] and salary['salary']['currency'] == 'RUR':
-                    all_average_salaries.append(
-                        predict_rub_salary(
-                            salary['salary']['from'],
-                            salary['salary']['to']
-                        )
+        for salary in decoded_response['items']:
+            if salary['salary'] and salary['salary']['currency'] == 'RUR':
+                all_average_salaries.append(
+                    predict_rub_salary(
+                        salary['salary']['from'],
+                        salary['salary']['to']
                     )
+                )
 
         if page >= decoded_response['pages']-1:
             break
 
+    salary_sum = int(sum(all_average_salaries) / len(all_average_salaries))
+    count_used = len(all_average_salaries)
+
     statistics = {
-        'average_salary': int(sum(all_average_salaries) / len(all_average_salaries)),
+        'average_salary': salary_sum,
         'vacancies_found': found,
-        'vacancies_processed': len(all_average_salaries)
+        'vacancies_processed': count_used
     }
 
     return statistics
 
 
-def get_statistics_of_hhru_languages(languages):
+def get_hhru_language_statistics(languages):
     statistics = defaultdict()
 
     for language in languages:
-        statistics[language] = predict_table_rub_hhru_salary(language)
+        statistics[language] = collect_hhru_statistics(language)
 
     return statistics
 
 
 def main():
-    print(get_statistics_of_hhru_languages(LANGUAGES))
+    print(get_hhru_language_statistics(LANGUAGES))
 
 
 if __name__ == '__main__':
