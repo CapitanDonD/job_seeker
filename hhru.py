@@ -18,7 +18,7 @@ LANGUAGES = [
 ]
 
 
-def getting_hhru_languages_vacancies(language='Python', page=0):
+def get_hhru_language_vacancies(language='Python', page=0):
     url = 'https://api.hh.ru/vacancies'
 
 
@@ -41,7 +41,7 @@ def collect_hhru_statistics(language):
     found = 0
 
     for page in count(0, 1):
-        decoded_response = getting_hhru_languages_vacancies(language, page=page)
+        decoded_response = get_hhru_language_vacancies(language, page=page)
         found = decoded_response['found']
 
         for salary in decoded_response['items']:

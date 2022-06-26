@@ -20,7 +20,7 @@ LANGUAGES = [
 ]
 
 
-def getting_sj_vacancies(sj_key, language='Python', page=0):
+def get_sj_vacancies(sj_key, language='Python', page=0):
     headers = {'X-Api-App-Id': sj_key}
     url = 'https://api.superjob.ru/2.0/vacancies/'
     params = {
@@ -37,12 +37,12 @@ def getting_sj_vacancies(sj_key, language='Python', page=0):
     return response.json()
 
 
-def collect_sj_languages_statistics(language, sj_key):
+def collect_sj_language_statistics(language, sj_key):
     all_average_salaries = []
     found = 0
 
     for page in count(0, 1):
-        decoded_response = getting_sj_vacancies(sj_key, language, page=page)
+        decoded_response = get_sj_vacancies(sj_key, language, page=page)
 
         for salary in decoded_response['objects']:
             if salary['payment_from'] or salary['payment_to']:
@@ -59,23 +59,23 @@ def collect_sj_languages_statistics(language, sj_key):
         found = decoded_response["total"]
 
     salary_sum = int(sum(all_average_salaries) / len(all_average_salaries))
-    count_used = len(all_average_salaries)
+    used_count = len(all_average_salaries)
 
     statistics = {
         'average_salary': salary_sum,
         'vacancies_found': found,
-        'vacancies_processed': count_used
+        'vacancies_processed': used_count
     }
 
     return statistics
 
 
-def get_statistic_of_sj_languages(languages):
+def get_sj_language_statistics(languages):
     statistics = defaultdict()
     sj_key = os.getenv('SJ_KEY')
 
     for language in languages:
-        statistics[language] = collect_sj_languages_statistics(language, sj_key)
+        statistics[language] = collect_sj_language_statistics(language, sj_key)
 
     return statistics
 
@@ -83,7 +83,7 @@ def get_statistic_of_sj_languages(languages):
 def main():
     load_dotenv()
 
-    print(get_statistic_of_sj_languages(LANGUAGES))
+    print(get_sj_language_statistics(LANGUAGES))
 
 
 if __name__ == '__main__':
